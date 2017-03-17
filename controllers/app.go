@@ -15,6 +15,8 @@
 package controllers
 
 import (
+	"fmt"
+	"os"
 	"strings"
 
 	"github.com/astaxie/beego"
@@ -59,10 +61,16 @@ func (this *baseController) Prepare() {
 			this.Lang = al
 		}
 	}
+	hostname, err := os.Hostname()
+	if err != nil {
+		this.Data["Host"] = fmt.Sprintf("unknow hostname Error=%v", err)
+	} else {
+		this.Data["Host"] = hostname
+	}
 
 	// 2. Default language is English.
 	if len(this.Lang) == 0 {
-		this.Lang = "pt-BR"
+		this.Lang = "en-US"
 	}
 
 	// Set template level language option.
